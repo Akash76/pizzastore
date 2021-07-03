@@ -1,0 +1,14 @@
+/home/akash/Desktop/pizzastore/bin/Debug/netcoreapp2.2/pizzastore.deps.json
+/home/akash/Desktop/pizzastore/bin/Debug/netcoreapp2.2/pizzastore.runtimeconfig.json
+/home/akash/Desktop/pizzastore/bin/Debug/netcoreapp2.2/pizzastore.runtimeconfig.dev.json
+/home/akash/Desktop/pizzastore/bin/Debug/netcoreapp2.2/pizzastore.dll
+/home/akash/Desktop/pizzastore/bin/Debug/netcoreapp2.2/pizzastore.pdb
+/home/akash/Desktop/pizzastore/obj/Debug/netcoreapp2.2/pizzastore.csprojAssemblyReference.cache
+/home/akash/Desktop/pizzastore/obj/Debug/netcoreapp2.2/pizzastore.csproj.CoreCompileInputs.cache
+/home/akash/Desktop/pizzastore/obj/Debug/netcoreapp2.2/pizzastore.RazorAssemblyInfo.cache
+/home/akash/Desktop/pizzastore/obj/Debug/netcoreapp2.2/pizzastore.RazorAssemblyInfo.cs
+/home/akash/Desktop/pizzastore/obj/Debug/netcoreapp2.2/pizzastore.AssemblyInfoInputs.cache
+/home/akash/Desktop/pizzastore/obj/Debug/netcoreapp2.2/pizzastore.AssemblyInfo.cs
+/home/akash/Desktop/pizzastore/obj/Debug/netcoreapp2.2/pizzastore.RazorTargetAssemblyInfo.cache
+/home/akash/Desktop/pizzastore/obj/Debug/netcoreapp2.2/pizzastore.dll
+/home/akash/Desktop/pizzastore/obj/Debug/netcoreapp2.2/pizzastore.pdb
