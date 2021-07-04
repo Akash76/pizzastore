@@ -27,8 +27,10 @@ namespace pizzastore.Services
             return pizza;
         }
 
-        public Pizza GetPizzaByOrderId(string id) => _pizza.Find(pizza => pizza.OrderId == id).SingleOrDefault();
+        public List<Pizza> GetAllOrders() => _pizza.Find(pizza => true).ToList();
 
-        public void CompleteOrder(Pizza newPizza) => _pizza.ReplaceOne(pizza => pizza.Id == newPizza.Id, newPizza);
+        public Pizza GetOrderByOrderId(string id) => _pizza.Find(pizza => pizza.OrderId == id).SingleOrDefault();
+
+        public void CompleteOrder(Pizza newPizza) => _pizza.ReplaceOne(pizza => pizza.OrderId == newPizza.OrderId, newPizza);
     }
 }

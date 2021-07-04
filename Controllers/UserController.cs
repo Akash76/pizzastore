@@ -49,20 +49,8 @@ namespace pizzastore.Controllers
 
         [HttpGet("getUsers")]
         public ActionResult<List<User>> GetUsers() {
-            var request = Request;
-            var headers = request.Headers;
-
-            var handler = new JwtSecurityTokenHandler();
-            string authHeader = Request.Headers["Authorization"];
-            authHeader = authHeader.Replace("Bearer ", "");
-            var jsonToken = handler.ReadToken(authHeader);
-            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
-
-            if(headers.ContainsKey("Authorization")) {
-                List<User> result = _user.GetAllUsers();
-                return result;
-            }
-            return null;
+            List<User> result = _user.GetAllUsers();
+            return result;
         }
 
         [HttpGet("getUserById/{id:length(24)}")]

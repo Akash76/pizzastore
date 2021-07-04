@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
@@ -28,9 +29,7 @@ namespace pizzastore.Controllers
             return null;
         }
 
-        [AllowAnonymous]
-        [HttpPost("estimateCost")]
-        public ActionResult EstimateCost([FromBody] Order order) {
+        public dynamic CostEstimation(Order order) {
             PizzaMain pizza = null;
             int cost = 0;
 
@@ -54,8 +53,59 @@ namespace pizzastore.Controllers
             cost = pizzaType.GetCost();
             string name = pizzaType.GetName();
 
-            return Ok(new {cost, name});
+            return new {cost, name};
         }
-        
+
+        public string generateID() {
+            return Guid.NewGuid().ToString("N");
+        }
+
+        [AllowAnonymous]
+        [HttpPost("estimateCost")]
+        public ActionResult EstimateCost([FromBody] Order order) {
+            var estimation = CostEstimation(order);
+
+            return Ok(new {estimation.cost, estimation.name});
+        }
+
+        [HttpPost("placeOrder")]
+        public ActionResult<Pizza> PlaceOrder([FromBody] Order order) {
+            Pizza pizza = new Pizza();
+            var estimation = CostEstimation(order);
+            string id = generateID();
+            pizza.OrderId = id;
+            pizza.Name = estimation.name;
+            pizza.Cost = estimation.cost;
+            pizza.PizzaType = order.PizzaType;
+            pizza.OrderStatus = Pizza.Status.PLACED.ToString();
+
+            var response = _pizza.CreateOrder(pizza);
+
+            return Ok(new {response});
+        }
+
+        [HttpGet("getAllOrders")]
+        public ActionResult<List<Pizza>> GetAllOrders() {
+            return _pizza.GetAllOrders();
+        }
+
+        [HttpGet("getOrderByOrderId/{id}")]
+        public ActionResult GetOrderById(string id) {
+            var response = _pizza.GetOrderByOrderId(id);
+
+            return Ok(new {response});
+        }
+
+        [HttpPut("completeOrder/{id}")]
+        public ActionResult CompleteOrder(string id) {
+            Pizza pizza = _pizza.GetOrderByOrderId(id);
+            pizza.OrderStatus = Pizza.Status.COMPLETE.ToString();
+
+            _pizza.CompleteOrder(pizza);
+
+            string message = "Order Completed";
+
+            return Ok(new {message});
+        }
     }
 }
