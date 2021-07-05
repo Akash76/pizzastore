@@ -20,6 +20,15 @@ namespace pizzastore.Controllers
             _pizza = pizza;
         }
 
+        public string GetDetails() {
+            var username = string.Empty;
+            if (HttpContext.User.Identity is ClaimsIdentity identity)
+            {
+                username = identity.FindFirst(ClaimTypes.Email).Value;
+            }
+            return username;
+        }
+
         public ToppingsDecorator ToppPizza(PizzaMain pizza, string topping) {
             if(topping.ToUpper() == "PANEER") {
                 return new Paneer(pizza);
@@ -73,10 +82,13 @@ namespace pizzastore.Controllers
             Pizza pizza = new Pizza();
             var estimation = CostEstimation(order);
             string id = generateID();
+            string user = GetDetails();
             pizza.OrderId = id;
+            pizza.User = user;
             pizza.Name = estimation.name;
             pizza.Cost = estimation.cost;
             pizza.PizzaType = order.PizzaType;
+            pizza.OrderDate = DateTime.Now.ToUniversalTime();
             pizza.OrderStatus = Pizza.Status.PLACED.ToString();
 
             var response = _pizza.CreateOrder(pizza);
@@ -96,14 +108,34 @@ namespace pizzastore.Controllers
             return Ok(new {response});
         }
 
+        [HttpGet("getOrdersByUser")]
+        public ActionResult<List<Pizza>> GetOrdersByUser() {
+            string user = GetDetails();
+            var response = _pizza.GetOrdersByUser(user);
+
+            return Ok(new {response});
+        }
+
         [HttpPut("completeOrder/{id}")]
         public ActionResult CompleteOrder(string id) {
             Pizza pizza = _pizza.GetOrderByOrderId(id);
             pizza.OrderStatus = Pizza.Status.COMPLETE.ToString();
 
-            _pizza.CompleteOrder(pizza);
+            _pizza.UpdateOrder(pizza);
 
             string message = "Order Completed";
+
+            return Ok(new {message});
+        }
+
+        [HttpPut("cancelOrder/{orderId}")]
+        public ActionResult CancelOrder(string orderId) {
+            Pizza pizza = _pizza.GetOrderByOrderId(orderId);
+            pizza.OrderStatus = Pizza.Status.CANCELED.ToString();
+
+            _pizza.UpdateOrder(pizza);
+
+            string message = "Order Canceled";
 
             return Ok(new {message});
         }

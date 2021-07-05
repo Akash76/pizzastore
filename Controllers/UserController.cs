@@ -24,7 +24,6 @@ namespace pizzastore.Controllers
             {
                 username = identity.FindFirst(ClaimTypes.Email).Value;
             }
-            // Console.WriteLine("Email: " + username);
             return username;
         }
 
@@ -40,7 +39,6 @@ namespace pizzastore.Controllers
         [HttpPost("login")]
         public ActionResult Login([FromBody] User user) {
             var token = _user.Authenticate(user.Username, user.Password);
-
             if(token == null) {
                 return Unauthorized();
             }

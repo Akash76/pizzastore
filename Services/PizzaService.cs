@@ -28,9 +28,8 @@ namespace pizzastore.Services
         }
 
         public List<Pizza> GetAllOrders() => _pizza.Find(pizza => true).ToList();
-
         public Pizza GetOrderByOrderId(string id) => _pizza.Find(pizza => pizza.OrderId == id).SingleOrDefault();
-
-        public void CompleteOrder(Pizza newPizza) => _pizza.ReplaceOne(pizza => pizza.OrderId == newPizza.OrderId, newPizza);
+        public List<Pizza> GetOrdersByUser(string user) => _pizza.Find(pizza => pizza.User == user).ToList();
+        public void UpdateOrder(Pizza newPizza) => _pizza.ReplaceOne(pizza => pizza.OrderId == newPizza.OrderId, newPizza);
     }
 }
