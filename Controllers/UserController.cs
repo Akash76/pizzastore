@@ -14,6 +14,7 @@ namespace pizzastore.Controllers
     [ApiController]
     public class UserController: Controller
     {
+        private readonly TokenService _token;
         private readonly UserService _user;
         public UserController(UserService user) {
             _user = user;
@@ -42,7 +43,20 @@ namespace pizzastore.Controllers
             if(token == null) {
                 return Unauthorized();
             }
+            _token.SetToken(token);
             return Ok(new {token, user});
+        }
+
+        [HttpGet("logout")]
+        public ActionResult Logout() {
+            var request = Request;
+            var headers = request.Headers;
+            var handler = new JwtSecurityTokenHandler();
+            var token = headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            _token.Deactivate(token);
+            string message = "Successfully logged out";
+            return Ok(new {message});
         }
 
         [HttpGet("getUsers")]
@@ -68,15 +82,14 @@ namespace pizzastore.Controllers
 
         [HttpGet("testToken")]
         public ActionResult TestToken() {
-            // var request = Request;
-            // var headers = request.Headers;
-            // var handler = new JwtSecurityTokenHandler();
-            // string authHeader = headers["Authorization"];
+            var request = Request;
+            var headers = request.Headers;
+            var handler = new JwtSecurityTokenHandler();
+            var token = headers["Authorization"].ToString().Replace("Bearer ", "");
             // authHeader = authHeader.Replace("Bearer ", "");
             // var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
             // var claims = tokenS.Claims;
             
-            Console.WriteLine("User: ", GetDetails());
             string user = GetDetails();
             return Ok(new {user});
         }

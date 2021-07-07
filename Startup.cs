@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace pizzastore
         }
 
         public IConfiguration Configuration { get; }
+        private readonly TokenService _token = new TokenService();
 
         readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         string[] allowedOrigins = {"http://localhost:3000"};
@@ -41,6 +43,7 @@ namespace pizzastore
             services.AddSingleton<IDatabaseSettings>(x => x.GetRequiredService<IOptions<DatabaseSettings>>().Value);
             services.AddSingleton<UserService>();
             services.AddSingleton<PizzaService>();
+            services.AddSingleton<TokenService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAuthentication(x => {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -74,6 +77,26 @@ namespace pizzastore
                 
                 await next.Invoke();
             });
+
+            // app.Use(async (context, next) => {
+
+            //     var request = context.Request;
+            //     var headers = request.Headers;
+            //     var handler = new JwtSecurityTokenHandler();
+            //     var token = headers["Authorization"].ToString().Replace("Bearer ", "");
+            //     _token.TokenStatus(token);
+            //     if(!_token.TokenStatus(token)) {
+            //         var response = context.Response;
+            //         StreamReader reader = new StreamReader("bad Token");
+            //         string text = reader.ReadToEnd();
+            //         context.Response.StatusCode = 401;
+            //         context.Response.ContentType = "application/json";
+            //         context.Response.Body = reader.BaseStream;
+
+            //         return;
+            //     }
+            //     await next.Invoke();
+            // });
             app.UseAuthentication();
             app.UseCors(MyAllowSpecificOrigins);
 
