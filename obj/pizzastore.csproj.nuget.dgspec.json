@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/akash/Desktop/pizzastore/pizzastore.csproj": {}
+    "/workspaces/pizzastore/pizzastore.csproj": {}
   },
   "projects": {
-    "/home/akash/Desktop/pizzastore/pizzastore.csproj": {
+    "/workspaces/pizzastore/pizzastore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/akash/Desktop/pizzastore/pizzastore.csproj",
+        "projectUniqueName": "/workspaces/pizzastore/pizzastore.csproj",
         "projectName": "pizzastore",
-        "projectPath": "/home/akash/Desktop/pizzastore/pizzastore.csproj",
-        "packagesPath": "/home/akash/.nuget/packages/",
-        "outputPath": "/home/akash/Desktop/pizzastore/obj/",
+        "projectPath": "/workspaces/pizzastore/pizzastore.csproj",
+        "packagesPath": "/var/nuget",
+        "outputPath": "/workspaces/pizzastore/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "/home/akash/.nuget/NuGet/NuGet.Config"
+          "/home/codespace/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
@@ -27,6 +24,7 @@
         },
         "frameworks": {
           "netcoreapp2.2": {
+            "targetAlias": "netcoreapp2.2",
             "projectReferences": {}
           }
         },
@@ -38,6 +36,7 @@
       },
       "frameworks": {
         "netcoreapp2.2": {
+          "targetAlias": "netcoreapp2.2",
           "dependencies": {
             "Microsoft.AspNetCore.App": {
               "suppressParent": "All",
@@ -70,10 +69,16 @@
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "/opt/dotnet/6.0.201/sdk/6.0.201/RuntimeIdentifierGraph.json"
         }
       }
     }
